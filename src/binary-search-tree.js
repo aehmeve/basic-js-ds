@@ -16,6 +16,7 @@ class TreeNode {
 }
 
 class BinarySearchTree {
+
   constructor() {
     this.treeRoot = null;
   }
@@ -43,9 +44,9 @@ class BinarySearchTree {
   addNodeToTree(currentNode, newTreeNode) {
     if (newTreeNode.data < currentNode.data) {
       if (!currentNode.smaller) {
-        currentNode.left = newTreeNode;
+        currentNode.smaller = newTreeNode;
       } else {
-        this.addNodeToTree(currentNode.left, newTreeNode);
+        this.addNodeToTree(currentNode.smaller, newTreeNode);
       }
     } else {
       if (!currentNode.bigger) {
@@ -56,31 +57,72 @@ class BinarySearchTree {
     }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(data) {
+    let currentNode = this.treeRoot;
+
+    while (currentNode) {
+      if (data === currentNode.data) {
+        if (!currentNode.deleted) {
+            return true;
+        }
+        return false;
+      } else if (data > currentNode.data) {
+        currentNode = currentNode.bigger;
+      } else if (data < currentNode.data) {
+        currentNode = currentNode.smaller;
+      }
+    }
+
+    return false;
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  find(data) {
+    let currentNode = this.treeRoot;
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    while (currentNode) {
+      if (data === currentNode.data) {
+        if (!currentNode.deleted) {
+            return currentNode;
+        }
+        return null;
+      } else if (data > currentNode.data) {
+        currentNode = currentNode.bigger;
+      } else if (data < currentNode.data) {
+        currentNode = currentNode.smaller;
+      }
+    }
+
+    return null;
+}
+
+remove(data) {
+  let nodeToDelete = this.find(data);
+
+  nodeToDelete.deleted = true;
+}
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let currentNode = this.treeRoot;
+  
+    while (currentNode.smaller) {
+      currentNode = currentNode.smaller;
+    }
+
+    return currentNode.data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let currentNode = this.treeRoot;
+  
+    while (currentNode.bigger) {
+      currentNode = currentNode.bigger;
+    }
+
+    return currentNode.data;
   }
 }
+
+console.log(TreeNode);
 
 module.exports = {
   BinarySearchTree
